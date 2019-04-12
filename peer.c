@@ -1,4 +1,3 @@
-#include "share.h"
 #include <arpa/inet.h>
 #include <netdb.h>
 #include <netinet/in.h>
@@ -10,10 +9,11 @@
 #include <sys/socket.h>
 #include <unistd.h>
 
+#include "share.h"
+#include "ui.h"
+
 // Initialize the lock
 pthread_mutex_t mutex = PTHREAD_MUTEX_INITIALIZER;
-
-#include "ui.h"
 
 // Set up this client as a server to listen to incoming connection
 void setup_server();
@@ -109,8 +109,7 @@ void setup_server() {
 }
 
 void *server_thread_fn(void *p) {
-
-  int client_count = 0; // Children client count
+  int client_count = 0;  // Children client count
 
   // Repeatedly accept connections
   while (true) {
@@ -275,10 +274,10 @@ void contact_directory_server(int type) {
     if (type == CLIENT_EXIT) {
       message.message_type = CLIENT_EXIT;
       message.id = CLIENT_ID;
-    } else if (try_count == 0) { // Join the network
+    } else if (try_count == 0) {  // Join the network
       message.message_type = CLIENT_JOIN;
       message.port = SERVER_PORT;
-    } else { // Request a new peer
+    } else {  // Request a new peer
       message.message_type = REQUEST_PEER;
       message.id = CLIENT_ID;
       message.parent_id = PARENT_ID;
@@ -314,7 +313,7 @@ void contact_directory_server(int type) {
     // Close the socket to the server
     close(s);
 
-    if (response.is_root) { // This is the root of the network
+    if (response.is_root) {  // This is the root of the network
       CLIENT_ID = response.id;
       parent_socket = -1;
       return;
