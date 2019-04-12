@@ -1,13 +1,14 @@
 CC = clang
 CFLAGS = -g
 
-all: client server
+all: peer directory_server
 
 clean:
-	rm -f client
+	rm -f directory_server
+	rm -f peer
 
-client: client.c ui.c ui.h share.h
-	$(CC) $(CFLAGS) -o client client.c ui.c -lncurses -pthread
+peer: peer.c ui.c ui.h share.h
+	$(CC) $(CFLAGS) -o peer peer.c ui.c -lncurses -pthread
 
-server: server.c share.h
-	$(CC) $(CFLAGS) -o server server.c 
+directory_server: directory_server.c share.h
+	$(CC) $(CFLAGS) -o directory_server directory_server.c 
